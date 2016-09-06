@@ -1,2 +1,5 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
+<div class="container">
+  <h3><%= @post.body %></h3>
+  <div><%= image_tag @post.image.url(:medium) %></div>
+  <p><%= @post.user.name %></p>
+</div>
