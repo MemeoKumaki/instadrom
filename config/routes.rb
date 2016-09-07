@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
 
+  get 'comments/new'
+
+  get 'comments/create'
+
+  get 'comments/edit'
+
+  get 'comments/update'
+
+  get 'comments/destroy'
+
   root 'posts#index'
 
   match "posts/index" => "posts#like", :via => :post, :as => :like

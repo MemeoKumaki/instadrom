@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+  before_action :authenticate_user!
+  before_action :correct_user, only: [:edit, :update]
   
   include LikesHelper
 
@@ -62,5 +65,10 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:body, :user_id, :image)
+  end
+
+  def correct_user
+    @post = Post.find(params[:id])
+    redirect_to(root_path) unless current_user == @post.user
   end
 end

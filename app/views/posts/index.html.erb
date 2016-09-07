@@ -5,23 +5,39 @@
         <%= render 'form' %>
       </div>
       <div>
+
         <% @posts.each do |post| %>
+
         <div class="post">
-          <h3><%= post.user.name %></h3>
+
+            <h3 class="clearfix"><%= post.user.name %>
+            <% if current_user == post.user %>
+            <div class="btn-group pull-right ">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Post <span class="glyphicon glyphicon-option-vertical"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Edit', edit_post_path(post) %></li>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: "Аre you sure? The deleted post cannot be restored later" } %></li>
+              </ul>
+            </div>
+            <% end %>
+          </h3>
+
           <%= image_tag post.image.url(:medium) %>
-          <div><%= render 'like_form', p: post %></div>
+          <div><%= render 'likes/form', p: post %></div>
           <hr>
           <% if post.likes.count != 0 %>
-            <p><%= post.likes.count %> like
-              <% if post.likes.count > 1 %>s <% end %>
-            </p>
+          <p><%= post.likes.count %> like<% if post.likes.count > 1 %>s <% end %></p>
           <% else %>
-            <p>No likes yet</p>
+          <p>No likes yet</p>
           <% end %>
           <p><%= post.body %></p>
         </div>
 
         <% end %>
+
       </div>
     </div>
   </div>
