@@ -1,0 +1,11 @@
+
+<%= form_for @like, url: like_path do |f| %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.hidden_field :post_id, :value => p.id %>
+  <% if like_exists?(current_user.id, p.id ) %>
+   <button class="glyphicon glyphicon-thumbs-down"></button>
+  <% else %>
+   <button class="glyphicon glyphicon-thumbs-up"></button>
+  <% end %>
+<% end %>
+

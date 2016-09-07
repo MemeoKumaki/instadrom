@@ -9,7 +9,15 @@
         <div class="post">
           <h3><%= post.user.name %></h3>
           <%= image_tag post.image.url(:medium) %>
-          <p><button class="glyphicon glyphicon-heart-empty"></button></p>
+          <div><%= render 'like_form', p: post %></div>
+          <hr>
+          <% if post.likes.count != 0 %>
+            <p><%= post.likes.count %> like
+              <% if post.likes.count > 1 %>s <% end %>
+            </p>
+          <% else %>
+            <p>No likes yet</p>
+          <% end %>
           <p><%= post.body %></p>
         </div>
 

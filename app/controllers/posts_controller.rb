@@ -1,7 +1,11 @@
 class PostsController < ApplicationController
+  
+  include LikesHelper
+
   def index
     @posts = Post.all
     @post = Post.new
+    @like = Like.new
   end
 
   def new
@@ -30,15 +34,31 @@ class PostsController < ApplicationController
     end
   end
 
+  def like
+    @like = Like.new(like_params)
+    if like_exists?(@like.user_id, @like.post_id)
+      old_like = Like.where(user_id: @like.user_id, post_id: @like.post_id).take
+      Like.destroy(old_like.id)
+    else
+      @like.save
+    end
+    redirect_to :back
+  end
+
   def destroy
     @post = Post.destroy(params[:id])
     redirect_to root_path
   end
+
   def show
     @post = Post.find(params[:id])
   end
 
   private
+
+  def like_params
+    params.require(:like).permit(:user_id, :post_id)
+  end
 
   def post_params
     params.require(:post).permit(:body, :user_id, :image)

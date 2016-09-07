@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  
+
   root 'posts#index'
+
+  match "posts/index" => "posts#like", :via => :post, :as => :like
 
   devise_for :users
   resources :posts

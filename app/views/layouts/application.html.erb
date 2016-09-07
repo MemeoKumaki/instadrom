@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Instadrom</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>Instadrom</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
-    <header>
-      <div class="container">
-        <%= link_to 'Instadrom', root_path %>
-        <div class="navbr-nav navbar-right">    
-          <% if user_signed_in? %>
-            <div class="pull-right">
-              <p class="navbar-text">Hello, <%= link_to current_user.name, edit_user_registration_path(current_user) %></p>
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to 'Edit profile', edit_user_registration_path(current_user) %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
-                  </ul>
-                </li>
+<body>
+  <header>
+    <div class="container">
+      <%= link_to 'Instadrom', root_path %>
+      <div class="navbr-nav navbar-right">    
+        <% if user_signed_in? %>
+        <div class="pull-right">
+          <p class="navbar-text">Hello, <%= link_to current_user.name, edit_user_registration_path(current_user) %></p>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Edit profile', edit_user_registration_path(current_user) %></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
               </ul>
-            </div>
-          <% else %>
-            <nav class="nav pull-right">
-              <%= link_to 'Sign up', new_user_registration_path %>
-              <%= link_to 'Log in', new_user_session_path %>
-            </nav>
-          <% end %>
+            </li>
+          </ul>
         </div>
+        <% else %>
+        <nav class="nav pull-right">
+          <%= link_to 'Sign up', new_user_registration_path %>
+          <%= link_to 'Log in', new_user_session_path %>
+        </nav>
+        <% end %>
       </div>
-    </header>
-  
-    <%= yield %>
+    </div>
+  </header>
+  <% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+  <%= yield %>
 
-  </body>
+</body>
 </html>
