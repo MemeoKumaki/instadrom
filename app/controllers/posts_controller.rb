@@ -9,6 +9,7 @@ class PostsController < ApplicationController
     @posts = Post.all
     @post = Post.new
     @like = Like.new
+    @comment = Comment.new
   end
 
   def new
@@ -58,6 +59,7 @@ class PostsController < ApplicationController
   end
 
   private
+
 
   def like_params
     params.require(:like).permit(:user_id, :post_id)
