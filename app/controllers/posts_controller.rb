@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   include LikesHelper
 
   def index
-    @posts = Post.all
+    @posts = Post.all.reverse
     @post = Post.new
     @like = Like.new
     @comment = Comment.new

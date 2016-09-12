@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  before_action :authenticate_user!
   def show
     @user = User.find(params[:id])
     @followers = Follow.where(followed_id: @user.id)
