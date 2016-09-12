@@ -3,6 +3,17 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .post {
-  max-width: 600px;
-  margin: 0 auto;
+  //max-width: 600px;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid #ccc;
+}
+.post .body {
+  border-bottom: 1px solid #ccc;
+}
+.post img{
+  width:100%;
+  height: auto;
+}
+.bb {
+  border-bottom: 1px solid #ccc;
 }

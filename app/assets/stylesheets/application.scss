@@ -1,4 +1,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-@import 'posts'
+@import 'posts';
+
+.container-narrow {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.mb-20{
+  margin-bottom: 20px;
+}

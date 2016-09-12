@@ -1,17 +1,17 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <div>
-        <%= render 'form' %>
-      </div>
-      <div>
 
-        <% @posts.each do |post| %>
+  <div class="container-narrow">
+    <div class="mb-20">
+      <%= render 'form' %>
+    </div>
+    <div>
 
-        <div class="post">
+      <% @posts.each do |post| %>
 
-          <h3 class="clearfix"><%= post.user.name %>
-            <% if current_user == post.user %>
+      <div class="post mb-20">
+
+        <h3 class="clearfix"><%= link_to post.user.name, show_user_path(post.user) %>
+          <% if current_user == post.user %>
             <div class="btn-group pull-right ">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Post <span class="glyphicon glyphicon-option-vertical"></span>
@@ -22,50 +22,63 @@
                 <li><%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: "Аre you sure? The deleted post cannot be restored later" } %></li>
               </ul>
             </div>
-            <% end %>
-          </h3>
-
-          <%= image_tag post.image.url(:medium) %>
-          <div><%= render 'likes/form', p: post %></div>
-          <hr>
-          <% if post.likes.count != 0 %>
-          <p><%= post.likes.count %> like<% if post.likes.count > 1 %>s <% end %></p>
           <% else %>
-          <p>No likes yet</p>
-          <% end %>
-          <p><%= post.body %></p>
-          <% if post.comments.size > 0 %>
-          <% post.comments.each do |comment| %>
-          <div class="comment">
-            <h4>
-              <%= comment.user.name %>
-              <% if current_user == comment.user %>
-              <div class="btn-group pull-right ">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-option-vertical"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><%= link_to 'Edit', edit_comment_path(comment) %></li>
-                  <li role="separator" class="divider"></li>
-                  <li><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: "Аre you sure? The deleted comment cannot be restored later" } %></li>
-                </ul>
-              </div>
-              <% elsif current_user == post.user %>
-              <%= link_to 'X', comment_path(comment), class: 'pull-right', method: :delete, data: { confirm: "Аre you sure? The deleted comment cannot be restored later" } %>
+            <div class="pull-right">
+              <% if current_user.following?(post.user) %>
+                <%= link_to "Unfollow", unfollow_path(post.user), method: :delete, class: "btn btn-danger"  %>
+              <% else %>
+                <%= link_to "Follow", follow_path(post.user), method: :post, class: "btn btn-success" %>
               <% end %>
-            </h4>
-            <p><%= comment.body %></p>
-          </div>
+            </div>
           <% end %>
-          <% else %>
-          <p>Be the first one to comment it!</p>
-          <% end %> 
-          <div>
-            <%= render 'comments/form', p: post %>
-          </div>
+        </h3>
+
+        <%= link_to image_tag(post.image.url(:medium)), post_path(post) %>
+        <div class="clearfix mb-20">
+          <div class="pull-left"><%= render 'likes/form', p: post %></div>
+          <p class="pull-right">
+          <% if post.likes.count != 0 %>
+          <%= post.likes.count %> like<% if post.likes.count > 1 %>s <% end %>
+          <% else %> No likes yet<% end %>
+          </p>
+        </div>
+        
+        <p><%= post.body %></p>
+        <hr>
+        <% if post.comments.size > 0 %>
+        <% post.comments.each do |comment| %>
+        <div class="comment">
+          <h4>
+            <%= comment.user.name %>
+            <% if current_user == comment.user %>
+            <div class="btn-group pull-right ">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-option-vertical"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Edit', edit_comment_path(comment) %></li>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: "Аre you sure? The deleted comment cannot be restored later" } %></li>
+              </ul>
+            </div>
+            <% elsif current_user == post.user %>
+            <%= link_to 'X', comment_path(comment), class: 'pull-right', method: :delete, data: { confirm: "Аre you sure? The deleted comment cannot be restored later" } %>
+            <% end %>
+          </h4>
+          <p><%= comment.body %></p>
         </div>
         <% end %>
+        <hr>
+        <% else %>
+        <p>Be the first one to comment it!</p>
+        <% end %> 
+
+        <div>
+          <%= render 'comments/form', p: post %>
+        </div>
       </div>
+      <% end %>
     </div>
   </div>
+
 </div>

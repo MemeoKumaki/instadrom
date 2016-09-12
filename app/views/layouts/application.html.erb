@@ -9,9 +9,9 @@
 </head>
 
 <body>
-  <header>
+  <header class="navbar navbar-default">
     <div class="container">
-      <%= link_to 'Instadrom', root_path %>
+      <%= link_to 'Instadrom', root_path, class: "navbar-brand" %>
       <div class="navbr-nav navbar-right">    
         <% if user_signed_in? %>
         <div class="pull-right">

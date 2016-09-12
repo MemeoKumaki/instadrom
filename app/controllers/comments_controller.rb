@@ -1,8 +1,7 @@
 class CommentsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :correct_user, only: [:edit, :update]
-  before_action :post_user, only: [:destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy] 
 
   def new
     @comment = Comment.new
@@ -28,8 +27,9 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.destroy(params[:id])
-    redirect_to root_path
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    redirect_to :back
   end
 
   private
@@ -40,12 +40,7 @@ class CommentsController < ApplicationController
 
   def correct_user
     @comment = Comment.find(params[:id])
-    redirect_to(root_path) unless current_user == @comment.user
-  end
-
-  def post_user
-    @comment = Comment.find(params[:id])
-    redirect_to(root_path) unless current_user == @comment.post.user
+    redirect_to(root_path) unless (current_user == @comment.user) || (current_user == @comment.post.user)
   end
   
 end

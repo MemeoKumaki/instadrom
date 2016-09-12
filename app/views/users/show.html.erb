@@ -1,0 +1,30 @@
+<div class="container">
+  <h1><%= @user.name %></h1>
+  <div>
+    <% unless current_user == @user %>
+    <% if current_user.following?(@user) %>
+    <%= link_to "Unfollow", unfollow_path(@user), method: :delete  %>
+    <% else %>
+    <%= link_to "Follow", follow_path(@user), method: :post %>
+    <% end %>
+    <% end %>
+  </div>
+  <div>
+    <span><%= @followers.count %> followers</span>
+    <span><%= @followed_users.count %> follows</span>
+  </div>
+  <div class="row">
+    <% @user.posts.each do |post| %>
+
+        <div class="post col-lg-4">
+          <%= link_to image_tag(post.image.url(:medium)), post_path(post) %>
+          <hr>
+          <% if post.likes.count != 0 %>
+          <p><%= post.likes.count %> like<% if post.likes.count > 1 %>s <% end %></p>
+          <% else %>
+          <p>No likes yet</p>
+          <% end %>
+        </div>
+        <% end %>
+  </div>
+</div>
